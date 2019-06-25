@@ -1,0 +1,43 @@
+#include <iostream>
+using namespace std;
+class CMyString{
+public:
+	CMyString(char* pdata = NULL){}
+	//1.连续赋值(返回引用)
+	//2.传参选择引用传入,避免拷贝构造造成不必要浪费
+	//3.是否对传入对象做出改变(考虑是否加const)
+	//4.避免内存泄漏,释放
+	//5.特殊情况,是否自己给自己赋值
+	//方法一
+	CMyString& operator=(const CMyString& str){
+		if (&str != this){
+			delete[]my_pdata;
+	//此时空间分配失败,会产生未定义行为
+			my_pdata = nullptr;
+			my_pdata = new char(strlen(str.my_pdata) + 1);
+			my_pdata = str.my_pdata;
+		}
+		return *this;
+	}
+	//方法一
+	CMyString& operator=(const CMyString& str){
+		if (&str != this){
+			CMyString* tmp = this;
+			my_pdata = new char(strlen(str.my_pdata) + 1);
+			my_pdata = str.my_pdata;
+			delete []tmp;
+		}
+		return *this;
+	}
+	//方法二
+	CMyString& operator=(CMyString str){
+		if (this != &str){
+			swap(str.my_pdata, my_pdata);
+		}
+		return *this;
+	}
+	//CMyString(const CMyString& str);
+	//~CMyString(void);
+private:
+	char* my_pdata;
+};
