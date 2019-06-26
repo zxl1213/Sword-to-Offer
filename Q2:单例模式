@@ -1,0 +1,42 @@
+//饿汉模式
+//class Singleton{
+//public:
+//	static Singleton* GetInstance(){
+//		return &_instance;
+//	}
+//private:
+//	Singleton(){}
+//	//C++98
+//	Singleton(Singleton const&);
+//	Singleton& operator=(Singleton const&);
+//	//C++11
+//	Singleton(Singleton const&) = delete;
+//	Singleton& operator=(Singleton const&) = delete;
+//	static Singleton _instance;
+//};
+//Singleton Singleton::_instance;
+//懒汉模式
+class Singleton{
+public:
+	Singleton* GetInstance(){
+		//double-check,防止大量线程阻塞在这里
+		if (instance == nullptr){
+			lock();
+			//保证线程安全
+			if (instance == nullptr){
+				instance = new Singleton;
+			}
+			unlock();
+		}
+		return instance;
+	}
+private:
+	Singleton(){}
+		//C++98
+		Singleton(const Singleton&);
+		Singleton& operator=(const Singleton&);
+		//C++11
+		Singleton(const Singleton&) = delete;
+		Singleton& operator=(const Singleton&) = delete;
+		static Singleton* instance;
+};
