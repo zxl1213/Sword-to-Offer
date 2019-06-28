@@ -1,0 +1,25 @@
+#include <vector>
+using namespace std;
+//如果从左上角或者右上角查找,在排除时有可能去除掉的部分有含有target的部分
+//左下角(或者右上角)查找,大于target,行--,小于target,则列++;
+//结束条件,找到返回true,行列都走完,返回false
+class Solution {
+public:          
+    bool Find(int target, vector<vector<int> > array) {
+        int i=array.size()-1;
+        int j=0;
+        while(i>=0&&j<(int)array[0].size()){
+            if(array[i][j]==target){
+                return true;          
+            }
+            else if(array[i][j]>target){
+                --i;                      
+            }
+            else if(array[i][j]<target){
+                ++j;                      
+            }
+        }        
+        return false;
+    }
+};   
+
