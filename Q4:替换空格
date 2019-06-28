@@ -1,0 +1,31 @@
+//两种思路
+//方法一,新建一个新字符串,遇到普通符号直接追加,遇见空格替换成%20,返回新字符串指针
+//方法二,算出需要多大空间,提前开好空间,从后往前插入,减少不必要的挪动次数,提高运行效率
+class Solution {
+public:
+	void replaceSpace(char *str,int length) {
+       int space=0,i=0;
+        while(*(str+i)!='\0'){
+            if(*(str+i)==' ')
+                space+=2;
+            i++;
+        }
+        if(space+i+1>length)
+            return;
+        int k=space+i;
+        while(i>=0){
+            if(*(str+i)==' '){
+                *(str+k)='0';
+                *(str+k-1)='2';
+                *(str+k-2)='%';
+                k-=3;
+                i--;
+            }
+            else{
+                *(str+k)=*(str+i);
+                k--;
+                i--;
+            }
+        }
+	}
+};
